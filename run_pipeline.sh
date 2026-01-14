@@ -7,6 +7,19 @@ TOP_N=10; TERM_MAX=300; PVAL=0.01; FOLD=5
 # --- ARGUMENT PARSER ---
 while [[ "$#" -gt 0 ]]; do
     case $1 in
+        -h|--help)
+            echo "Usage: $(basename "$0") [--top_n <int>] [--term_max <int>] [--pval <float>] [--fold <float>]"
+            echo ""
+            echo "This pipeline analyzes ribosome-associated proteome data."
+            echo ""
+            echo "Options:"
+            echo "  --top_n <int>   : Number of top GO terms to display per cluster in dotplots (default: 10)."
+            echo "  --term_max <int>: Maximum size of GO terms to consider (default: 300)."
+            echo "  --pval <float>  : P-value threshold for GO terms (default: 0.01)."
+            echo "  --fold <float>  : Fold enrichment threshold for GO terms (default: 5)."
+            echo "  -h, --help      : Display this help message and exit."
+            exit 0
+            ;;
         --top_n) TOP_N="$2"; shift ;;
         --term_max) TERM_MAX="$2"; shift ;;
         --pval) PVAL="$2"; shift ;;

@@ -31,7 +31,7 @@ done
 
 # --- PATHS ---
 # Using current environment binaries
-PYTHON=$(which python3)
+PYTHON=$(which python)
 RSCRIPT=$(which Rscript)
 
 DATA="data/Ribosome_Associated_proteome.tsv"

@@ -1,0 +1,21 @@
+name: RibosomeAssociatedProteome
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - r-base=4.3
+  - r-dplyr
+  - r-ggplot2
+  - r-tidyr
+  - r-readr
+  - r-gridextra
+  - r-ggrepel
+  - pip
+  - pip:
+      - gprofiler-official

@@ -1,0 +1,9 @@
+{
+    "google.gemini.projectContext.enabled": true,
+    "google.gemini.projectContext.ignoreFiles": [
+        "**/Figure3/data/**",
+        "**/Figure3/results/**",
+        "**/*.{gtf,fa,fasta,gz,bam,bw}",
+        ".git/**"
+    ]
+}

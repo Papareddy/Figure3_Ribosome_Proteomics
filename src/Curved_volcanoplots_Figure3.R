@@ -29,7 +29,10 @@ highlight_colors <- c(
 )
 
 # ---------- 1) Load and Prep Data ----------
-master_df <- read.delim("data/Ribosome_Associated_proteome.tsv", header=TRUE, sep="\t")
+args <- commandArgs(trailingOnly = TRUE)
+input_file <- if (length(args) > 0) args[1] else "data/Ribosome_Associated_proteome.tsv"
+
+master_df <- read.delim(input_file, header=TRUE, sep="\t")
 
 # Standardize column names if necessary (ensure they match your header)
 # Using 'file', 'log2fc_wt', 'pval_wt', 'gene_id' from your snippet

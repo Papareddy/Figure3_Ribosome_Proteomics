@@ -1,6 +1,9 @@
 #!/bin/zsh
 set -e
 
+# Get the directory where the script is located
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # --- DEFAULTS ---
 TOP_N=10; TERM_MAX=300; PVAL=0.01; FOLD=5
 
@@ -30,12 +33,11 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 # --- PATHS ---
-# Using current environment binaries
 PYTHON=$(which python)
 RSCRIPT=$(which Rscript)
 
-DATA="data/Ribosome_Associated_proteome.tsv"
-RES_DIR="results"
+DATA="${SCRIPT_DIR}/data/Ribosome_Associated_proteome.tsv"
+RES_DIR="${SCRIPT_DIR}/results"
 mkdir -p $RES_DIR
 
 echo "------------------------------------------------------------"
@@ -45,16 +47,16 @@ echo "------------------------------------------------------------"
 
 # STEP 1: Volcano (Internal output path changed to results/ via the script)
 echo ">> Running Volcano Plots..."
-$RSCRIPT src/Curved_volcanoplots_Figure3.R
+$RSCRIPT "${SCRIPT_DIR}/src/Curved_volcanoplots_Figure3.R" "$DATA"
 
 # STEP 2 & 3: GO Enrichment
 mkdir -p $RES_DIR/GO_UP $RES_DIR/GO_DOWN
-$PYTHON src/simplifiedGO.py "$DATA" --filter "_up" --outdir "$RES_DIR/GO_UP"
-$PYTHON src/simplifiedGO.py "$DATA" --filter "_down" --outdir "$RES_DIR/GO_DOWN"
+$PYTHON "${SCRIPT_DIR}/src/GOterms_by_gprofiler.py" "$DATA" --filter "_up" --outdir "$RES_DIR/GO_UP"
+$PYTHON "${SCRIPT_DIR}/src/GOterms_by_gprofiler.py" "$DATA" --filter "_down" --outdir "$RES_DIR/GO_DOWN"
 
 # STEP 4: DotPlots
 echo ">> Running GO DotPlots..."
-$RSCRIPT src/SimplifiedGO_ClusterBased.R "$RES_DIR/GO_UP" "$RES_DIR/Figure3_GO_UP.pdf" "UP Clusters" $TOP_N $TERM_MAX $PVAL $FOLD
-$RSCRIPT src/SimplifiedGO_ClusterBased.R "$RES_DIR/GO_DOWN" "$RES_DIR/Figure3_GO_DOWN.pdf" "DOWN Clusters" $TOP_N $TERM_MAX $PVAL $FOLD
+$RSCRIPT "${SCRIPT_DIR}/src/plot_GOterm_clusters.R" "$RES_DIR/GO_UP" "$RES_DIR/Figure3_GO_UP.pdf" "UP Clusters" $TOP_N $TERM_MAX $PVAL $FOLD
+$RSCRIPT "${SCRIPT_DIR}/src/plot_GOterm_clusters.R" "$RES_DIR/GO_DOWN" "$RES_DIR/Figure3_GO_DOWN.pdf" "DOWN Clusters" $TOP_N $TERM_MAX $PVAL $FOLD
 
 echo ">> PIPELINE COMPLETE. See results/ directory."

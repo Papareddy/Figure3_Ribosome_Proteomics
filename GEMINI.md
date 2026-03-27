@@ -1,4 +1,4 @@
-# Figure 3: GO Enrichment & Differential Expression
+# Ribosome associate proteome GO Enrichment & Differential Expression
 
 ## Project Goal
 Visualize functional enrichment and expression trends for splicing-related subsets.
